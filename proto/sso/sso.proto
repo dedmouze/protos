@@ -4,10 +4,26 @@ package auth;
 
 option go_package = "kurbanov.sso.v1;ssov1";
 
+import "google/api/annotations.proto";
+
 service Auth {
-    rpc Register (RegisterRequest) returns (RegisterResponse);
-    rpc Login (LoginRequest) returns (LoginResponse);
-    rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
+    rpc Register (RegisterRequest) returns (RegisterResponse) {
+        option (google.api.http) = {
+            post: "/register"
+            body: "*"
+        };
+    };
+    rpc Login (LoginRequest) returns (LoginResponse) {
+        option (google.api.http) = {
+            post: "/login"
+            body: "*"
+        };
+    };
+    rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse) {
+        option (google.api.http) = {
+            get: "/isadmin"
+        };
+    };
 }
 
 message RegisterRequest {
