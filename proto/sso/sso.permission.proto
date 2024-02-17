@@ -9,13 +9,13 @@ import "google/api/annotations.proto";
 service Permission {
     rpc AddAdmin (AddAdminRequest) returns (AddAdminResponse) {
         option (google.api.http) = {
-            post: "/moderator/add"
+            post: "/admin/add"
             body: "*"
         };
     };
     rpc DeleteAdmin (DeleteAdminRequest) returns (DeleteAdminResponse) {
         option (google.api.http) = {
-            post: "/Admin/delete"
+            post: "/admin/delete"
             body: "*"
         };
     };

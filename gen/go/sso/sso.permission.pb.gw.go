@@ -97,7 +97,7 @@ func RegisterPermissionHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/permission.Permission/AddAdmin", runtime.WithHTTPPathPattern("/moderator/add"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/permission.Permission/AddAdmin", runtime.WithHTTPPathPattern("/admin/add"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -122,7 +122,7 @@ func RegisterPermissionHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/permission.Permission/DeleteAdmin", runtime.WithHTTPPathPattern("/Admin/delete"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/permission.Permission/DeleteAdmin", runtime.WithHTTPPathPattern("/admin/delete"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -186,7 +186,7 @@ func RegisterPermissionHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/permission.Permission/AddAdmin", runtime.WithHTTPPathPattern("/moderator/add"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/permission.Permission/AddAdmin", runtime.WithHTTPPathPattern("/admin/add"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -208,7 +208,7 @@ func RegisterPermissionHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/permission.Permission/DeleteAdmin", runtime.WithHTTPPathPattern("/Admin/delete"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/permission.Permission/DeleteAdmin", runtime.WithHTTPPathPattern("/admin/delete"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -228,9 +228,9 @@ func RegisterPermissionHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 }
 
 var (
-	pattern_Permission_AddAdmin_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"moderator", "add"}, ""))
+	pattern_Permission_AddAdmin_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"admin", "add"}, ""))
 
-	pattern_Permission_DeleteAdmin_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"Admin", "delete"}, ""))
+	pattern_Permission_DeleteAdmin_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"admin", "delete"}, ""))
 )
 
 var (
