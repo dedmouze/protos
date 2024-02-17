@@ -19,11 +19,6 @@ service Auth {
             body: "*"
         };
     };
-    rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse) {
-        option (google.api.http) = {
-            get: "/isadmin"
-        };
-    };
 }
 
 message RegisterRequest {
@@ -43,12 +38,4 @@ message LoginRequest {
 
 message LoginResponse {
     string token = 1;
-}
-
-message IsAdminRequest {
-    int64 user_id = 1;
-}
-
-message IsAdminResponse {
-    bool is_admin = 1;
 }

@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package userInfo;
+
+option go_package = "kurbanov.sso.v1;ssov1";
+
+import "google/api/annotations.proto";
+
+service Permission {
+    rpc User (UserRequest) returns (UserResponse) {
+        option (google.api.http) = {
+            post: "/user"
+            body: "*"
+        };
+    };
+    rpc Admin (AdminRequest) returns (AdminResponse) {
+        option (google.api.http) = {
+            post: "/admin"
+            body: "*"
+        };
+    };
+}
+
+message UserRequest {
+    string email = 1;
+    string token = 2;
+}
+
+message UserResponse {
+    int64 userID = 1;
+    string email = 2;
+    bytes pass_hash = 3;
+}
+
+message AdminRequest {
+    string email = 1;
+    string token = 2;
+}
+
+message AdminResponse {
+    int64 adminID = 1;
+    string email = 2;
+    int32 level = 3;
+}

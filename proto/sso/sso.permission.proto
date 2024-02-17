@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package permission;
+
+option go_package = "kurbanov.sso.v1;ssov1";
+
+import "google/api/annotations.proto";
+
+service Permission {
+    rpc AddAdmin (AddAdminRequest) returns (AddAdminResponse) {
+        option (google.api.http) = {
+            post: "/moderator/add"
+            body: "*"
+        };
+    };
+    rpc DeleteAdmin (DeleteAdminRequest) returns (DeleteAdminResponse) {
+        option (google.api.http) = {
+            post: "/Admin/delete"
+            body: "*"
+        };
+    };
+}
+
+message AddAdminRequest {
+    string email = 1;
+    string token = 2;
+}
+
+message AddAdminResponse {}
+
+message DeleteAdminRequest {
+    string email = 1;
+    string token = 2;
+}
+
+message DeleteAdminResponse {}
