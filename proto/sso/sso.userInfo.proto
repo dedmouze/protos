@@ -6,7 +6,7 @@ option go_package = "kurbanov.sso.v1;ssov1";
 
 import "google/api/annotations.proto";
 
-service Permission {
+service UserInfo {
     rpc User (UserRequest) returns (UserResponse) {
         option (google.api.http) = {
             post: "/user"

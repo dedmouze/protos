@@ -18,122 +18,122 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// PermissionClient is the client API for Permission service.
+// UserInfoClient is the client API for UserInfo service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type PermissionClient interface {
+type UserInfoClient interface {
 	User(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	Admin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error)
 }
 
-type permissionClient struct {
+type userInfoClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewPermissionClient(cc grpc.ClientConnInterface) PermissionClient {
-	return &permissionClient{cc}
+func NewUserInfoClient(cc grpc.ClientConnInterface) UserInfoClient {
+	return &userInfoClient{cc}
 }
 
-func (c *permissionClient) User(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error) {
+func (c *userInfoClient) User(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error) {
 	out := new(UserResponse)
-	err := c.cc.Invoke(ctx, "/userInfo.Permission/User", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/userInfo.UserInfo/User", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *permissionClient) Admin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error) {
+func (c *userInfoClient) Admin(ctx context.Context, in *AdminRequest, opts ...grpc.CallOption) (*AdminResponse, error) {
 	out := new(AdminResponse)
-	err := c.cc.Invoke(ctx, "/userInfo.Permission/Admin", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/userInfo.UserInfo/Admin", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// PermissionServer is the server API for Permission service.
-// All implementations must embed UnimplementedPermissionServer
+// UserInfoServer is the server API for UserInfo service.
+// All implementations must embed UnimplementedUserInfoServer
 // for forward compatibility
-type PermissionServer interface {
+type UserInfoServer interface {
 	User(context.Context, *UserRequest) (*UserResponse, error)
 	Admin(context.Context, *AdminRequest) (*AdminResponse, error)
-	mustEmbedUnimplementedPermissionServer()
+	mustEmbedUnimplementedUserInfoServer()
 }
 
-// UnimplementedPermissionServer must be embedded to have forward compatible implementations.
-type UnimplementedPermissionServer struct {
+// UnimplementedUserInfoServer must be embedded to have forward compatible implementations.
+type UnimplementedUserInfoServer struct {
 }
 
-func (UnimplementedPermissionServer) User(context.Context, *UserRequest) (*UserResponse, error) {
+func (UnimplementedUserInfoServer) User(context.Context, *UserRequest) (*UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method User not implemented")
 }
-func (UnimplementedPermissionServer) Admin(context.Context, *AdminRequest) (*AdminResponse, error) {
+func (UnimplementedUserInfoServer) Admin(context.Context, *AdminRequest) (*AdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Admin not implemented")
 }
-func (UnimplementedPermissionServer) mustEmbedUnimplementedPermissionServer() {}
+func (UnimplementedUserInfoServer) mustEmbedUnimplementedUserInfoServer() {}
 
-// UnsafePermissionServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to PermissionServer will
+// UnsafeUserInfoServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to UserInfoServer will
 // result in compilation errors.
-type UnsafePermissionServer interface {
-	mustEmbedUnimplementedPermissionServer()
+type UnsafeUserInfoServer interface {
+	mustEmbedUnimplementedUserInfoServer()
 }
 
-func RegisterPermissionServer(s grpc.ServiceRegistrar, srv PermissionServer) {
-	s.RegisterService(&Permission_ServiceDesc, srv)
+func RegisterUserInfoServer(s grpc.ServiceRegistrar, srv UserInfoServer) {
+	s.RegisterService(&UserInfo_ServiceDesc, srv)
 }
 
-func _Permission_User_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserInfo_User_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PermissionServer).User(ctx, in)
+		return srv.(UserInfoServer).User(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/userInfo.Permission/User",
+		FullMethod: "/userInfo.UserInfo/User",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PermissionServer).User(ctx, req.(*UserRequest))
+		return srv.(UserInfoServer).User(ctx, req.(*UserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Permission_Admin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserInfo_Admin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AdminRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PermissionServer).Admin(ctx, in)
+		return srv.(UserInfoServer).Admin(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/userInfo.Permission/Admin",
+		FullMethod: "/userInfo.UserInfo/Admin",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PermissionServer).Admin(ctx, req.(*AdminRequest))
+		return srv.(UserInfoServer).Admin(ctx, req.(*AdminRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Permission_ServiceDesc is the grpc.ServiceDesc for Permission service.
+// UserInfo_ServiceDesc is the grpc.ServiceDesc for UserInfo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Permission_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "userInfo.Permission",
-	HandlerType: (*PermissionServer)(nil),
+var UserInfo_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "userInfo.UserInfo",
+	HandlerType: (*UserInfoServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "User",
-			Handler:    _Permission_User_Handler,
+			Handler:    _UserInfo_User_Handler,
 		},
 		{
 			MethodName: "Admin",
-			Handler:    _Permission_Admin_Handler,
+			Handler:    _UserInfo_Admin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

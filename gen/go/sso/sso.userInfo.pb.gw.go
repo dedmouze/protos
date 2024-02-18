@@ -31,7 +31,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_Permission_User_0(ctx context.Context, marshaler runtime.Marshaler, client PermissionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_UserInfo_User_0(ctx context.Context, marshaler runtime.Marshaler, client UserInfoClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq UserRequest
 	var metadata runtime.ServerMetadata
 
@@ -44,7 +44,7 @@ func request_Permission_User_0(ctx context.Context, marshaler runtime.Marshaler,
 
 }
 
-func local_request_Permission_User_0(ctx context.Context, marshaler runtime.Marshaler, server PermissionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_UserInfo_User_0(ctx context.Context, marshaler runtime.Marshaler, server UserInfoServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq UserRequest
 	var metadata runtime.ServerMetadata
 
@@ -57,7 +57,7 @@ func local_request_Permission_User_0(ctx context.Context, marshaler runtime.Mars
 
 }
 
-func request_Permission_Admin_0(ctx context.Context, marshaler runtime.Marshaler, client PermissionClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_UserInfo_Admin_0(ctx context.Context, marshaler runtime.Marshaler, client UserInfoClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq AdminRequest
 	var metadata runtime.ServerMetadata
 
@@ -70,7 +70,7 @@ func request_Permission_Admin_0(ctx context.Context, marshaler runtime.Marshaler
 
 }
 
-func local_request_Permission_Admin_0(ctx context.Context, marshaler runtime.Marshaler, server PermissionServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_UserInfo_Admin_0(ctx context.Context, marshaler runtime.Marshaler, server UserInfoServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq AdminRequest
 	var metadata runtime.ServerMetadata
 
@@ -83,13 +83,13 @@ func local_request_Permission_Admin_0(ctx context.Context, marshaler runtime.Mar
 
 }
 
-// RegisterPermissionHandlerServer registers the http handlers for service Permission to "mux".
-// UnaryRPC     :call PermissionServer directly.
+// RegisterUserInfoHandlerServer registers the http handlers for service UserInfo to "mux".
+// UnaryRPC     :call UserInfoServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterPermissionHandlerFromEndpoint instead.
-func RegisterPermissionHandlerServer(ctx context.Context, mux *runtime.ServeMux, server PermissionServer) error {
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterUserInfoHandlerFromEndpoint instead.
+func RegisterUserInfoHandlerServer(ctx context.Context, mux *runtime.ServeMux, server UserInfoServer) error {
 
-	mux.Handle("POST", pattern_Permission_User_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_UserInfo_User_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -97,12 +97,12 @@ func RegisterPermissionHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/userInfo.Permission/User", runtime.WithHTTPPathPattern("/user"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/userInfo.UserInfo/User", runtime.WithHTTPPathPattern("/user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Permission_User_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_UserInfo_User_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -110,11 +110,11 @@ func RegisterPermissionHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 			return
 		}
 
-		forward_Permission_User_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UserInfo_User_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_Permission_Admin_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_UserInfo_Admin_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -122,12 +122,12 @@ func RegisterPermissionHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/userInfo.Permission/Admin", runtime.WithHTTPPathPattern("/admin"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/userInfo.UserInfo/Admin", runtime.WithHTTPPathPattern("/admin"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Permission_Admin_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_UserInfo_Admin_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -135,16 +135,16 @@ func RegisterPermissionHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 			return
 		}
 
-		forward_Permission_Admin_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UserInfo_Admin_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
 }
 
-// RegisterPermissionHandlerFromEndpoint is same as RegisterPermissionHandler but
+// RegisterUserInfoHandlerFromEndpoint is same as RegisterUserInfoHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterPermissionHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterUserInfoHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
@@ -164,63 +164,63 @@ func RegisterPermissionHandlerFromEndpoint(ctx context.Context, mux *runtime.Ser
 		}()
 	}()
 
-	return RegisterPermissionHandler(ctx, mux, conn)
+	return RegisterUserInfoHandler(ctx, mux, conn)
 }
 
-// RegisterPermissionHandler registers the http handlers for service Permission to "mux".
+// RegisterUserInfoHandler registers the http handlers for service UserInfo to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterPermissionHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterPermissionHandlerClient(ctx, mux, NewPermissionClient(conn))
+func RegisterUserInfoHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterUserInfoHandlerClient(ctx, mux, NewUserInfoClient(conn))
 }
 
-// RegisterPermissionHandlerClient registers the http handlers for service Permission
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "PermissionClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "PermissionClient"
+// RegisterUserInfoHandlerClient registers the http handlers for service UserInfo
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "UserInfoClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "UserInfoClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "PermissionClient" to call the correct interceptors.
-func RegisterPermissionHandlerClient(ctx context.Context, mux *runtime.ServeMux, client PermissionClient) error {
+// "UserInfoClient" to call the correct interceptors.
+func RegisterUserInfoHandlerClient(ctx context.Context, mux *runtime.ServeMux, client UserInfoClient) error {
 
-	mux.Handle("POST", pattern_Permission_User_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_UserInfo_User_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/userInfo.Permission/User", runtime.WithHTTPPathPattern("/user"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/userInfo.UserInfo/User", runtime.WithHTTPPathPattern("/user"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Permission_User_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_UserInfo_User_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Permission_User_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UserInfo_User_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_Permission_Admin_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_UserInfo_Admin_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/userInfo.Permission/Admin", runtime.WithHTTPPathPattern("/admin"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/userInfo.UserInfo/Admin", runtime.WithHTTPPathPattern("/admin"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Permission_Admin_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_UserInfo_Admin_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Permission_Admin_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UserInfo_Admin_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -228,13 +228,13 @@ func RegisterPermissionHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 }
 
 var (
-	pattern_Permission_User_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"user"}, ""))
+	pattern_UserInfo_User_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"user"}, ""))
 
-	pattern_Permission_Admin_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"admin"}, ""))
+	pattern_UserInfo_Admin_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"admin"}, ""))
 )
 
 var (
-	forward_Permission_User_0 = runtime.ForwardResponseMessage
+	forward_UserInfo_User_0 = runtime.ForwardResponseMessage
 
-	forward_Permission_Admin_0 = runtime.ForwardResponseMessage
+	forward_UserInfo_Admin_0 = runtime.ForwardResponseMessage
 )
