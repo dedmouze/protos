@@ -5,6 +5,7 @@ package userInfo;
 option go_package = "kurbanov.sso.v1;ssov1";
 
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 
 service UserInfo {
     rpc User (UserRequest) returns (UserResponse) {
@@ -21,20 +22,22 @@ service UserInfo {
     };
 }
 
+
 message UserRequest {
     string email = 1;
-    string token = 2;
+    string api_key = 2;
 }
 
 message UserResponse {
     int64 userID = 1;
     string email = 2;
-    bytes pass_hash = 3;
+    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Timestamp visited_at = 4;
 }
 
 message AdminRequest {
     string email = 1;
-    string token = 2;
+    string api_key = 2;
 }
 
 message AdminResponse {

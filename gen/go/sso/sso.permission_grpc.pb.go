@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -22,8 +23,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PermissionClient interface {
-	AddAdmin(ctx context.Context, in *AddAdminRequest, opts ...grpc.CallOption) (*AddAdminResponse, error)
-	DeleteAdmin(ctx context.Context, in *DeleteAdminRequest, opts ...grpc.CallOption) (*DeleteAdminResponse, error)
+	AddAdmin(ctx context.Context, in *AddAdminRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteAdmin(ctx context.Context, in *DeleteAdminRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type permissionClient struct {
@@ -34,8 +35,8 @@ func NewPermissionClient(cc grpc.ClientConnInterface) PermissionClient {
 	return &permissionClient{cc}
 }
 
-func (c *permissionClient) AddAdmin(ctx context.Context, in *AddAdminRequest, opts ...grpc.CallOption) (*AddAdminResponse, error) {
-	out := new(AddAdminResponse)
+func (c *permissionClient) AddAdmin(ctx context.Context, in *AddAdminRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/permission.Permission/AddAdmin", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,8 +44,8 @@ func (c *permissionClient) AddAdmin(ctx context.Context, in *AddAdminRequest, op
 	return out, nil
 }
 
-func (c *permissionClient) DeleteAdmin(ctx context.Context, in *DeleteAdminRequest, opts ...grpc.CallOption) (*DeleteAdminResponse, error) {
-	out := new(DeleteAdminResponse)
+func (c *permissionClient) DeleteAdmin(ctx context.Context, in *DeleteAdminRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/permission.Permission/DeleteAdmin", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -56,8 +57,8 @@ func (c *permissionClient) DeleteAdmin(ctx context.Context, in *DeleteAdminReque
 // All implementations must embed UnimplementedPermissionServer
 // for forward compatibility
 type PermissionServer interface {
-	AddAdmin(context.Context, *AddAdminRequest) (*AddAdminResponse, error)
-	DeleteAdmin(context.Context, *DeleteAdminRequest) (*DeleteAdminResponse, error)
+	AddAdmin(context.Context, *AddAdminRequest) (*emptypb.Empty, error)
+	DeleteAdmin(context.Context, *DeleteAdminRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedPermissionServer()
 }
 
@@ -65,10 +66,10 @@ type PermissionServer interface {
 type UnimplementedPermissionServer struct {
 }
 
-func (UnimplementedPermissionServer) AddAdmin(context.Context, *AddAdminRequest) (*AddAdminResponse, error) {
+func (UnimplementedPermissionServer) AddAdmin(context.Context, *AddAdminRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAdmin not implemented")
 }
-func (UnimplementedPermissionServer) DeleteAdmin(context.Context, *DeleteAdminRequest) (*DeleteAdminResponse, error) {
+func (UnimplementedPermissionServer) DeleteAdmin(context.Context, *DeleteAdminRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAdmin not implemented")
 }
 func (UnimplementedPermissionServer) mustEmbedUnimplementedPermissionServer() {}

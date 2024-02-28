@@ -5,15 +5,16 @@ package permission;
 option go_package = "kurbanov.sso.v1;ssov1";
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 
 service Permission {
-    rpc AddAdmin (AddAdminRequest) returns (AddAdminResponse) {
+    rpc AddAdmin (AddAdminRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             post: "/admin/add"
             body: "*"
         };
     };
-    rpc DeleteAdmin (DeleteAdminRequest) returns (DeleteAdminResponse) {
+    rpc DeleteAdmin (DeleteAdminRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             post: "/admin/delete"
             body: "*"
@@ -23,14 +24,10 @@ service Permission {
 
 message AddAdminRequest {
     string email = 1;
-    string token = 2;
+    string api_key = 2;
 }
-
-message AddAdminResponse {}
 
 message DeleteAdminRequest {
     string email = 1;
-    string token = 2;
+    string api_key = 2;
 }
-
-message DeleteAdminResponse {}
