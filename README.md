@@ -7,12 +7,12 @@
 * Login(app_id, email, password string) (token string)
 
 /// UserInfo:
-* User(email, api_key string) (user_id int64, email string, created_at, visited_at *timestamppb.Timestamp)
-* Admin(email, api_key string) (admin_id int64, email string, level int32)
+* User(email string) (user_id int64, email string, created_at, visited_at *timestamppb.Timestamp)
+* Admin(email string) (admin_id int64, email string, level int32)
 
 /// Permission
-* AddAdmin(email, api_key string)
-* DeleteAdmin(email, api_key string)
+* AddAdmin(email string)
+* DeleteAdmin(email string)
 
 /// timestamppb.Timestamp
 struct Timestamp {
