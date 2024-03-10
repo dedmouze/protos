@@ -3,7 +3,7 @@
 ```Go
 /// Auth:
 * Register(email, password string) (user_id int64)
-* RegisterApp(name string) (api_key string)
+* RegisterApp(name string) (api_key, user_key string)
 * Login(app_id, email, password string) (token string)
 
 /// UserInfo:
