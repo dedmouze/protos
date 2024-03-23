@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package info;
+
+option go_package = "kurbanov.sso.v1;ssov1";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "sso/sso.role.proto";
+
+service UserInfo {
+    rpc User (google.protobuf.Empty) returns (UserResponse) {
+        option (google.api.http) = {
+            get: "/user"
+        };
+    };
+    rpc UserByID (UserRequest) returns (UserResponse) {
+        option (google.api.http) = {
+            post: "/user"
+            body: "*"
+        };
+    }
+    rpc UserRoles (UserRequest) returns (UserRolesResponse) {
+        option (google.api.http) = {
+            post: "/user/roles"
+            body: "*"
+        };
+    }
+    rpc UserRolesByApp (UserRolesByAppRequest) returns (UserRolesByAppResponse) {
+        option (google.api.http) = {
+            post: "/user/roles/app"
+            body: "*"
+        };
+    }
+}
+
+message UserRequest {
+    int64 userID = 1;
+}
+
+message UserResponse {
+    int64 userID = 1;
+    string email = 2;
+    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Timestamp visited_at = 4;
+}
+
+
+message UserRolesByAppRequest {
+    UserRequest user = 1;
+    int64 appID = 2;
+}
+
+message UserRolesResponse {
+    repeated role.Role role = 1;
+}
+
+message UserRolesByAppResponse {
+    repeated role.Role role = 1;
+}
+
+
+
+service AppInfo {
+    rpc App (google.protobuf.Empty) returns (AppResponse) {
+        option (google.api.http) = {
+            get: "/app"
+        };
+    }
+    rpc AppByID (AppByIdRequest) returns (AppResponse) {
+        option (google.api.http) = {
+            post: "/app"
+            body: "*"
+        };
+    }
+}
+
+message App {
+    int64 appID = 2;
+    string name = 3;
+    google.protobuf.Timestamp created_at = 4;
+    google.protobuf.Timestamp used_at = 5;
+}
+
+message AppResponse {
+    App app = 1;
+}
+
+message AppByIdRequest {
+    int64 appID = 1;
+}

@@ -19,12 +19,278 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
+// RoleClient is the client API for Role service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type RoleClient interface {
+	AddRole(ctx context.Context, in *AddRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteRole(ctx context.Context, in *DeleteRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Role(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*RoleResponse, error)
+	RoleByID(ctx context.Context, in *RoleByIdRequest, opts ...grpc.CallOption) (*RoleResponse, error)
+	Roles(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*RolesResponse, error)
+	RolesByID(ctx context.Context, in *RolesByIdRequest, opts ...grpc.CallOption) (*RolesResponse, error)
+}
+
+type roleClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewRoleClient(cc grpc.ClientConnInterface) RoleClient {
+	return &roleClient{cc}
+}
+
+func (c *roleClient) AddRole(ctx context.Context, in *AddRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/permission.Role/AddRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleClient) DeleteRole(ctx context.Context, in *DeleteRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/permission.Role/DeleteRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleClient) Role(ctx context.Context, in *RoleRequest, opts ...grpc.CallOption) (*RoleResponse, error) {
+	out := new(RoleResponse)
+	err := c.cc.Invoke(ctx, "/permission.Role/Role", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleClient) RoleByID(ctx context.Context, in *RoleByIdRequest, opts ...grpc.CallOption) (*RoleResponse, error) {
+	out := new(RoleResponse)
+	err := c.cc.Invoke(ctx, "/permission.Role/RoleByID", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleClient) Roles(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*RolesResponse, error) {
+	out := new(RolesResponse)
+	err := c.cc.Invoke(ctx, "/permission.Role/Roles", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleClient) RolesByID(ctx context.Context, in *RolesByIdRequest, opts ...grpc.CallOption) (*RolesResponse, error) {
+	out := new(RolesResponse)
+	err := c.cc.Invoke(ctx, "/permission.Role/RolesByID", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// RoleServer is the server API for Role service.
+// All implementations must embed UnimplementedRoleServer
+// for forward compatibility
+type RoleServer interface {
+	AddRole(context.Context, *AddRoleRequest) (*emptypb.Empty, error)
+	DeleteRole(context.Context, *DeleteRoleRequest) (*emptypb.Empty, error)
+	Role(context.Context, *RoleRequest) (*RoleResponse, error)
+	RoleByID(context.Context, *RoleByIdRequest) (*RoleResponse, error)
+	Roles(context.Context, *emptypb.Empty) (*RolesResponse, error)
+	RolesByID(context.Context, *RolesByIdRequest) (*RolesResponse, error)
+	mustEmbedUnimplementedRoleServer()
+}
+
+// UnimplementedRoleServer must be embedded to have forward compatible implementations.
+type UnimplementedRoleServer struct {
+}
+
+func (UnimplementedRoleServer) AddRole(context.Context, *AddRoleRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddRole not implemented")
+}
+func (UnimplementedRoleServer) DeleteRole(context.Context, *DeleteRoleRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRole not implemented")
+}
+func (UnimplementedRoleServer) Role(context.Context, *RoleRequest) (*RoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Role not implemented")
+}
+func (UnimplementedRoleServer) RoleByID(context.Context, *RoleByIdRequest) (*RoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RoleByID not implemented")
+}
+func (UnimplementedRoleServer) Roles(context.Context, *emptypb.Empty) (*RolesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Roles not implemented")
+}
+func (UnimplementedRoleServer) RolesByID(context.Context, *RolesByIdRequest) (*RolesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RolesByID not implemented")
+}
+func (UnimplementedRoleServer) mustEmbedUnimplementedRoleServer() {}
+
+// UnsafeRoleServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to RoleServer will
+// result in compilation errors.
+type UnsafeRoleServer interface {
+	mustEmbedUnimplementedRoleServer()
+}
+
+func RegisterRoleServer(s grpc.ServiceRegistrar, srv RoleServer) {
+	s.RegisterService(&Role_ServiceDesc, srv)
+}
+
+func _Role_AddRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleServer).AddRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/permission.Role/AddRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleServer).AddRole(ctx, req.(*AddRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Role_DeleteRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleServer).DeleteRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/permission.Role/DeleteRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleServer).DeleteRole(ctx, req.(*DeleteRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Role_Role_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleServer).Role(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/permission.Role/Role",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleServer).Role(ctx, req.(*RoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Role_RoleByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleServer).RoleByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/permission.Role/RoleByID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleServer).RoleByID(ctx, req.(*RoleByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Role_Roles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleServer).Roles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/permission.Role/Roles",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleServer).Roles(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Role_RolesByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RolesByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleServer).RolesByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/permission.Role/RolesByID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleServer).RolesByID(ctx, req.(*RolesByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// Role_ServiceDesc is the grpc.ServiceDesc for Role service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var Role_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "permission.Role",
+	HandlerType: (*RoleServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddRole",
+			Handler:    _Role_AddRole_Handler,
+		},
+		{
+			MethodName: "DeleteRole",
+			Handler:    _Role_DeleteRole_Handler,
+		},
+		{
+			MethodName: "Role",
+			Handler:    _Role_Role_Handler,
+		},
+		{
+			MethodName: "RoleByID",
+			Handler:    _Role_RoleByID_Handler,
+		},
+		{
+			MethodName: "Roles",
+			Handler:    _Role_Roles_Handler,
+		},
+		{
+			MethodName: "RolesByID",
+			Handler:    _Role_RolesByID_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "sso/sso.permission.proto",
+}
+
 // PermissionClient is the client API for Permission service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PermissionClient interface {
-	AddAdmin(ctx context.Context, in *AddAdminRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	DeleteAdmin(ctx context.Context, in *DeleteAdminRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Ban(ctx context.Context, in *PermissionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Unban(ctx context.Context, in *PermissionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type permissionClient struct {
@@ -35,18 +301,18 @@ func NewPermissionClient(cc grpc.ClientConnInterface) PermissionClient {
 	return &permissionClient{cc}
 }
 
-func (c *permissionClient) AddAdmin(ctx context.Context, in *AddAdminRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *permissionClient) Ban(ctx context.Context, in *PermissionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/permission.Permission/AddAdmin", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/permission.Permission/Ban", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *permissionClient) DeleteAdmin(ctx context.Context, in *DeleteAdminRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *permissionClient) Unban(ctx context.Context, in *PermissionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/permission.Permission/DeleteAdmin", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/permission.Permission/Unban", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -57,8 +323,8 @@ func (c *permissionClient) DeleteAdmin(ctx context.Context, in *DeleteAdminReque
 // All implementations must embed UnimplementedPermissionServer
 // for forward compatibility
 type PermissionServer interface {
-	AddAdmin(context.Context, *AddAdminRequest) (*emptypb.Empty, error)
-	DeleteAdmin(context.Context, *DeleteAdminRequest) (*emptypb.Empty, error)
+	Ban(context.Context, *PermissionRequest) (*emptypb.Empty, error)
+	Unban(context.Context, *PermissionRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedPermissionServer()
 }
 
@@ -66,11 +332,11 @@ type PermissionServer interface {
 type UnimplementedPermissionServer struct {
 }
 
-func (UnimplementedPermissionServer) AddAdmin(context.Context, *AddAdminRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddAdmin not implemented")
+func (UnimplementedPermissionServer) Ban(context.Context, *PermissionRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Ban not implemented")
 }
-func (UnimplementedPermissionServer) DeleteAdmin(context.Context, *DeleteAdminRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteAdmin not implemented")
+func (UnimplementedPermissionServer) Unban(context.Context, *PermissionRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Unban not implemented")
 }
 func (UnimplementedPermissionServer) mustEmbedUnimplementedPermissionServer() {}
 
@@ -85,38 +351,38 @@ func RegisterPermissionServer(s grpc.ServiceRegistrar, srv PermissionServer) {
 	s.RegisterService(&Permission_ServiceDesc, srv)
 }
 
-func _Permission_AddAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddAdminRequest)
+func _Permission_Ban_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PermissionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PermissionServer).AddAdmin(ctx, in)
+		return srv.(PermissionServer).Ban(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/permission.Permission/AddAdmin",
+		FullMethod: "/permission.Permission/Ban",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PermissionServer).AddAdmin(ctx, req.(*AddAdminRequest))
+		return srv.(PermissionServer).Ban(ctx, req.(*PermissionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Permission_DeleteAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteAdminRequest)
+func _Permission_Unban_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PermissionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PermissionServer).DeleteAdmin(ctx, in)
+		return srv.(PermissionServer).Unban(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/permission.Permission/DeleteAdmin",
+		FullMethod: "/permission.Permission/Unban",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PermissionServer).DeleteAdmin(ctx, req.(*DeleteAdminRequest))
+		return srv.(PermissionServer).Unban(ctx, req.(*PermissionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -129,12 +395,12 @@ var Permission_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PermissionServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "AddAdmin",
-			Handler:    _Permission_AddAdmin_Handler,
+			MethodName: "Ban",
+			Handler:    _Permission_Ban_Handler,
 		},
 		{
-			MethodName: "DeleteAdmin",
-			Handler:    _Permission_DeleteAdmin_Handler,
+			MethodName: "Unban",
+			Handler:    _Permission_Unban_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
