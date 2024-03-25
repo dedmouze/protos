@@ -27,16 +27,12 @@ service UserInfo {
             body: "*"
         };
     }
-    rpc UserRolesByApp (UserRolesByAppRequest) returns (UserRolesByAppResponse) {
+    rpc UserRolesByApp (UserRolesByAppRequest) returns (UserRolesResponse) {
         option (google.api.http) = {
             post: "/user/roles/app"
             body: "*"
         };
     }
-}
-
-message UserRequest {
-    int64 userID = 1;
 }
 
 message UserResponse {
@@ -46,17 +42,16 @@ message UserResponse {
     google.protobuf.Timestamp visited_at = 4;
 }
 
+message UserRequest {
+    int64 userID = 1;
+}
 
 message UserRolesByAppRequest {
-    UserRequest user = 1;
+    int64 userID = 1;
     int64 appID = 2;
 }
 
 message UserRolesResponse {
-    repeated role.Role role = 1;
-}
-
-message UserRolesByAppResponse {
     repeated role.Role role = 1;
 }
 
@@ -74,19 +69,36 @@ service AppInfo {
             body: "*"
         };
     }
+    rpc AppRoles (google.protobuf.Empty) returns (AppRolesResponse) {
+        option (google.api.http) = {
+            post: "/app/roles"
+            body: "*"
+        };
+    }
+    rpc AppRolesByApp (AppRoleByAppRequest) returns (AppRolesResponse) {
+        option (google.api.http) = {
+            post: "/app/roles/app"
+            body: "*"
+        };
+    }
 }
 
-message App {
+message AppResponse {
     int64 appID = 2;
     string name = 3;
     google.protobuf.Timestamp created_at = 4;
     google.protobuf.Timestamp used_at = 5;
 }
 
-message AppResponse {
-    App app = 1;
-}
-
 message AppByIdRequest {
     int64 appID = 1;
+}
+
+message AppRolesResponse {
+    repeated role.Role role = 1;
+}
+
+message AppRoleByAppRequest {
+    int64 targetAppID = 1;
+    int64 appID = 2;
 }

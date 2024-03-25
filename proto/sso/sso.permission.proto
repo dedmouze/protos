@@ -9,9 +9,9 @@ import "google/protobuf/empty.proto";
 import "sso/sso.role.proto";
 
 service Role {
-    rpc AddRole (AddRoleRequest) returns (google.protobuf.Empty) {
+    rpc CreateRole (CreateRoleRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
-            post: "/role/add"
+            post: "/role/create"
             body: "*"
         };
     }
@@ -45,7 +45,7 @@ service Role {
     } 
 }
 
-message AddRoleRequest {
+message CreateRoleRequest {
     string name    = 1;
     string object  = 2;
     string actions = 3;
@@ -79,21 +79,36 @@ message RolesResponse {
 
 
 service Permission {
-    rpc Ban (PermissionRequest) returns (google.protobuf.Empty) {
+    rpc BanUser (UserPermissionRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
-            post: "/ban"
+            post: "/ban/user"
             body: "*"
         };
     }
-    rpc Unban (PermissionRequest) returns (google.protobuf.Empty) {
+    rpc UnbanUser (UserPermissionRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
-            post: "/unban"
+            post: "/unban/user"
+            body: "*"
+        };
+    }
+    rpc BanApp (AppPermissionRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/ban/app"
+            body: "*"
+        };
+    }
+    rpc UnbanApp (AppPermissionRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/unban/app"
             body: "*"
         };
     }
 }
 
-message PermissionRequest {
+message UserPermissionRequest {
     int64 userID = 1;
-    int64 appID = 2;
+}
+
+message AppPermissionRequest {
+    int64 appID = 1;
 }

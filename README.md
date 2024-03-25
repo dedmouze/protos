@@ -15,9 +15,11 @@
 /// AppInfo:
 * App() (app App)
 * AppByID(appID int64) (app App)
+* AppRoles(appID int64) (role Role)
+* AppRolesByApp(targetAppID, appID int64) (roles []Role)
 
 /// Role
-* AddRole(name, object, actions string)
+* CreateRole(name, object, actions string)
 * DeleteRole(name string)
 * Role(name string) (role Role)
 * RoleByID(appID int64, name string) (role Role)
@@ -25,8 +27,10 @@
 * RolesByID(appID int64) (roles []Role)
 
 /// Permission
-* Ban(userID, appID int64)
-* Unban(userID, appID int64)
+* BanUser(userID, appID int64)
+* UnbanUser(userID, appID int64)
+* BanApp(banAppID, appID int64)
+* UnbanApp(unbanAppID, appID int64)
 
 /// timestamppb.Timestamp
 struct Timestamp {
