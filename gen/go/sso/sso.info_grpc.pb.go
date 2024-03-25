@@ -26,7 +26,7 @@ type UserInfoClient interface {
 	User(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*UserResponse, error)
 	UserByID(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	UserRoles(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserRolesResponse, error)
-	UserRolesByApp(ctx context.Context, in *UserRolesByAppRequest, opts ...grpc.CallOption) (*UserRolesByAppResponse, error)
+	UserRolesByApp(ctx context.Context, in *UserRolesByAppRequest, opts ...grpc.CallOption) (*UserRolesResponse, error)
 }
 
 type userInfoClient struct {
@@ -64,8 +64,8 @@ func (c *userInfoClient) UserRoles(ctx context.Context, in *UserRequest, opts ..
 	return out, nil
 }
 
-func (c *userInfoClient) UserRolesByApp(ctx context.Context, in *UserRolesByAppRequest, opts ...grpc.CallOption) (*UserRolesByAppResponse, error) {
-	out := new(UserRolesByAppResponse)
+func (c *userInfoClient) UserRolesByApp(ctx context.Context, in *UserRolesByAppRequest, opts ...grpc.CallOption) (*UserRolesResponse, error) {
+	out := new(UserRolesResponse)
 	err := c.cc.Invoke(ctx, "/info.UserInfo/UserRolesByApp", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ type UserInfoServer interface {
 	User(context.Context, *emptypb.Empty) (*UserResponse, error)
 	UserByID(context.Context, *UserRequest) (*UserResponse, error)
 	UserRoles(context.Context, *UserRequest) (*UserRolesResponse, error)
-	UserRolesByApp(context.Context, *UserRolesByAppRequest) (*UserRolesByAppResponse, error)
+	UserRolesByApp(context.Context, *UserRolesByAppRequest) (*UserRolesResponse, error)
 	mustEmbedUnimplementedUserInfoServer()
 }
 
@@ -97,7 +97,7 @@ func (UnimplementedUserInfoServer) UserByID(context.Context, *UserRequest) (*Use
 func (UnimplementedUserInfoServer) UserRoles(context.Context, *UserRequest) (*UserRolesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserRoles not implemented")
 }
-func (UnimplementedUserInfoServer) UserRolesByApp(context.Context, *UserRolesByAppRequest) (*UserRolesByAppResponse, error) {
+func (UnimplementedUserInfoServer) UserRolesByApp(context.Context, *UserRolesByAppRequest) (*UserRolesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserRolesByApp not implemented")
 }
 func (UnimplementedUserInfoServer) mustEmbedUnimplementedUserInfoServer() {}
@@ -219,6 +219,8 @@ var UserInfo_ServiceDesc = grpc.ServiceDesc{
 type AppInfoClient interface {
 	App(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AppResponse, error)
 	AppByID(ctx context.Context, in *AppByIdRequest, opts ...grpc.CallOption) (*AppResponse, error)
+	AppRoles(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AppRolesResponse, error)
+	AppRolesByApp(ctx context.Context, in *AppRoleByAppRequest, opts ...grpc.CallOption) (*AppRolesResponse, error)
 }
 
 type appInfoClient struct {
@@ -247,12 +249,32 @@ func (c *appInfoClient) AppByID(ctx context.Context, in *AppByIdRequest, opts ..
 	return out, nil
 }
 
+func (c *appInfoClient) AppRoles(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AppRolesResponse, error) {
+	out := new(AppRolesResponse)
+	err := c.cc.Invoke(ctx, "/info.AppInfo/AppRoles", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *appInfoClient) AppRolesByApp(ctx context.Context, in *AppRoleByAppRequest, opts ...grpc.CallOption) (*AppRolesResponse, error) {
+	out := new(AppRolesResponse)
+	err := c.cc.Invoke(ctx, "/info.AppInfo/AppRolesByApp", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AppInfoServer is the server API for AppInfo service.
 // All implementations must embed UnimplementedAppInfoServer
 // for forward compatibility
 type AppInfoServer interface {
 	App(context.Context, *emptypb.Empty) (*AppResponse, error)
 	AppByID(context.Context, *AppByIdRequest) (*AppResponse, error)
+	AppRoles(context.Context, *emptypb.Empty) (*AppRolesResponse, error)
+	AppRolesByApp(context.Context, *AppRoleByAppRequest) (*AppRolesResponse, error)
 	mustEmbedUnimplementedAppInfoServer()
 }
 
@@ -265,6 +287,12 @@ func (UnimplementedAppInfoServer) App(context.Context, *emptypb.Empty) (*AppResp
 }
 func (UnimplementedAppInfoServer) AppByID(context.Context, *AppByIdRequest) (*AppResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AppByID not implemented")
+}
+func (UnimplementedAppInfoServer) AppRoles(context.Context, *emptypb.Empty) (*AppRolesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AppRoles not implemented")
+}
+func (UnimplementedAppInfoServer) AppRolesByApp(context.Context, *AppRoleByAppRequest) (*AppRolesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AppRolesByApp not implemented")
 }
 func (UnimplementedAppInfoServer) mustEmbedUnimplementedAppInfoServer() {}
 
@@ -315,6 +343,42 @@ func _AppInfo_AppByID_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AppInfo_AppRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AppInfoServer).AppRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/info.AppInfo/AppRoles",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AppInfoServer).AppRoles(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AppInfo_AppRolesByApp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AppRoleByAppRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AppInfoServer).AppRolesByApp(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/info.AppInfo/AppRolesByApp",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AppInfoServer).AppRolesByApp(ctx, req.(*AppRoleByAppRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AppInfo_ServiceDesc is the grpc.ServiceDesc for AppInfo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -329,6 +393,14 @@ var AppInfo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AppByID",
 			Handler:    _AppInfo_AppByID_Handler,
+		},
+		{
+			MethodName: "AppRoles",
+			Handler:    _AppInfo_AppRoles_Handler,
+		},
+		{
+			MethodName: "AppRolesByApp",
+			Handler:    _AppInfo_AppRolesByApp_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
