@@ -5,7 +5,7 @@ package role;
 option go_package = "kurbanov.sso.v1;ssov1";
 
 message Role {
-    int64  userID  = 1;
+    int64  ID      = 1;
     int64  appID   = 2;
     string name    = 3;
     string object  = 4;
