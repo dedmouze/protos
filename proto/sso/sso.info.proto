@@ -15,9 +15,15 @@ service UserInfo {
             get: "/user"
         };
     };
+    rpc UserByEmail (UserByEmailRequest) returns (UserResponse) {
+        option (google.api.http) = {
+            post: "/user/email"
+            body: "*"
+        };
+    }
     rpc UserByID (UserRequest) returns (UserResponse) {
         option (google.api.http) = {
-            post: "/user"
+            post: "/user/id"
             body: "*"
         };
     }
@@ -44,6 +50,10 @@ message UserResponse {
 
 message UserRequest {
     int64 userID = 1;
+}
+
+message UserByEmailRequest {
+    string email = 1;
 }
 
 message UserRolesByAppRequest {

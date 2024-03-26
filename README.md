@@ -8,6 +8,7 @@
 
 /// UserInfo:
 * User() (user User)
+* UserByEmail() (email string) (user User)
 * UserByID(user_id int64) (user User)
 * UserRoles(user_id int64) (roles []Role)
 * UserRolesByApp(user_id, app_id int64) (roles []Role)
