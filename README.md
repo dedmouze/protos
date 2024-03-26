@@ -53,7 +53,7 @@ struct App {
 }
 
 struct Role {
-    userID  int64
+    ID  int64
     appID   int64
     name    string
     object  string
