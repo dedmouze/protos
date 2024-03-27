@@ -85,15 +85,15 @@ service Permission {
             body: "*"
         };
     }
-    rpc AddAppRole (UserRoleRequest) returns (google.protobuf.Empty) {
+    rpc DeleteUserRole (UserRoleRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
-            post: "/role/add/app"
+            post: "/role/delete/user"
             body: "*"
         };
     }
-    rpc DeleteUserRole (AppRoleRequest) returns (google.protobuf.Empty) {
+    rpc AddAppRole (AppRoleRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
-            post: "/role/delete/user"
+            post: "/role/add/app"
             body: "*"
         };
     }
