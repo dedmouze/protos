@@ -79,6 +79,30 @@ message RolesResponse {
 
 
 service Permission {
+    rpc AddUserRole (UserRoleRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/role/add/user"
+            body: "*"
+        };
+    }
+    rpc AddAppRole (UserRoleRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/role/add/app"
+            body: "*"
+        };
+    }
+    rpc DeleteUserRole (AppRoleRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/role/delete/user"
+            body: "*"
+        };
+    }
+    rpc DeleteAppRole (AppRoleRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/role/delete/app"
+            body: "*"
+        };
+    }
     rpc BanUser (UserPermissionRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             post: "/ban/user"
@@ -111,4 +135,14 @@ message UserPermissionRequest {
 
 message AppPermissionRequest {
     int64 appID = 1;
+}
+
+message UserRoleRequest {
+    int64 userID = 1;
+    int64 roleID = 2;
+}
+
+message AppRoleRequest {
+    int64 appID = 1;
+    int64 roleID = 2;
 }
