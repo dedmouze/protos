@@ -290,8 +290,8 @@ var Role_ServiceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PermissionClient interface {
 	AddUserRole(ctx context.Context, in *UserRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	AddAppRole(ctx context.Context, in *UserRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	DeleteUserRole(ctx context.Context, in *AppRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteUserRole(ctx context.Context, in *UserRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	AddAppRole(ctx context.Context, in *AppRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeleteAppRole(ctx context.Context, in *AppRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	BanUser(ctx context.Context, in *UserPermissionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	UnbanUser(ctx context.Context, in *UserPermissionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
@@ -316,18 +316,18 @@ func (c *permissionClient) AddUserRole(ctx context.Context, in *UserRoleRequest,
 	return out, nil
 }
 
-func (c *permissionClient) AddAppRole(ctx context.Context, in *UserRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *permissionClient) DeleteUserRole(ctx context.Context, in *UserRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/permission.Permission/AddAppRole", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/permission.Permission/DeleteUserRole", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *permissionClient) DeleteUserRole(ctx context.Context, in *AppRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *permissionClient) AddAppRole(ctx context.Context, in *AppRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/permission.Permission/DeleteUserRole", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/permission.Permission/AddAppRole", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -384,8 +384,8 @@ func (c *permissionClient) UnbanApp(ctx context.Context, in *AppPermissionReques
 // for forward compatibility
 type PermissionServer interface {
 	AddUserRole(context.Context, *UserRoleRequest) (*emptypb.Empty, error)
-	AddAppRole(context.Context, *UserRoleRequest) (*emptypb.Empty, error)
-	DeleteUserRole(context.Context, *AppRoleRequest) (*emptypb.Empty, error)
+	DeleteUserRole(context.Context, *UserRoleRequest) (*emptypb.Empty, error)
+	AddAppRole(context.Context, *AppRoleRequest) (*emptypb.Empty, error)
 	DeleteAppRole(context.Context, *AppRoleRequest) (*emptypb.Empty, error)
 	BanUser(context.Context, *UserPermissionRequest) (*emptypb.Empty, error)
 	UnbanUser(context.Context, *UserPermissionRequest) (*emptypb.Empty, error)
@@ -401,11 +401,11 @@ type UnimplementedPermissionServer struct {
 func (UnimplementedPermissionServer) AddUserRole(context.Context, *UserRoleRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddUserRole not implemented")
 }
-func (UnimplementedPermissionServer) AddAppRole(context.Context, *UserRoleRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddAppRole not implemented")
-}
-func (UnimplementedPermissionServer) DeleteUserRole(context.Context, *AppRoleRequest) (*emptypb.Empty, error) {
+func (UnimplementedPermissionServer) DeleteUserRole(context.Context, *UserRoleRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserRole not implemented")
+}
+func (UnimplementedPermissionServer) AddAppRole(context.Context, *AppRoleRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddAppRole not implemented")
 }
 func (UnimplementedPermissionServer) DeleteAppRole(context.Context, *AppRoleRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAppRole not implemented")
@@ -453,26 +453,8 @@ func _Permission_AddUserRole_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Permission_AddAppRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRoleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PermissionServer).AddAppRole(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/permission.Permission/AddAppRole",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PermissionServer).AddAppRole(ctx, req.(*UserRoleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Permission_DeleteUserRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AppRoleRequest)
+	in := new(UserRoleRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -484,7 +466,25 @@ func _Permission_DeleteUserRole_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: "/permission.Permission/DeleteUserRole",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PermissionServer).DeleteUserRole(ctx, req.(*AppRoleRequest))
+		return srv.(PermissionServer).DeleteUserRole(ctx, req.(*UserRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Permission_AddAppRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AppRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PermissionServer).AddAppRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/permission.Permission/AddAppRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PermissionServer).AddAppRole(ctx, req.(*AppRoleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -591,12 +591,12 @@ var Permission_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Permission_AddUserRole_Handler,
 		},
 		{
-			MethodName: "AddAppRole",
-			Handler:    _Permission_AddAppRole_Handler,
-		},
-		{
 			MethodName: "DeleteUserRole",
 			Handler:    _Permission_DeleteUserRole_Handler,
+		},
+		{
+			MethodName: "AddAppRole",
+			Handler:    _Permission_AddAppRole_Handler,
 		},
 		{
 			MethodName: "DeleteAppRole",
