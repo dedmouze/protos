@@ -32,6 +32,10 @@
 * UnbanUser(userID, appID int64)
 * BanApp(banAppID, appID int64)
 * UnbanApp(unbanAppID, appID int64)
+* AddUserRole(userID, roleID int64)
+* DeleteUserRole(userID, roleID int64)
+* AddAppRole(appID, roleID int64)
+* DeleteAppRole(appID, roleID int64)
 
 /// timestamppb.Timestamp
 struct Timestamp {
